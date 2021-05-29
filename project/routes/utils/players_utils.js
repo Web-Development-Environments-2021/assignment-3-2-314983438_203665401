@@ -1,6 +1,6 @@
 const axios = require("axios");
 const api_domain = "https://soccer.sportmonks.com/api/v2.0";
-// const TEAM_ID = "85";
+const LEAGUE_ID = "271";
 
 async function getPlayerIdsByTeam(team_id) {
   let player_ids_list = [];
@@ -57,7 +57,7 @@ async function getPlayersByTeam(team_id) {
   async function getPlayerByName(player_name) {
     let player_ids_list = [];
     const player_list = await axios.get(
-      `https://soccer.sportmonks.com/api/v2.0/players/search/${player_name}`,
+      `${api_domain}/players/search/${player_name}`,
       {
         params: {
           api_token: process.env.api_token,
@@ -69,9 +69,10 @@ async function getPlayersByTeam(team_id) {
       //console.log(str.length);
       player_list.data.data.map((player) =>
         {
+          // only 1 name
           if (str.length == 1)
           {
-            if (player.team != null && player.team.data.league != null && player.team.data.league.data.id == 271)
+            if (player.team != null && player.team.data.league != null && player.team.data.league.data.id == LEAGUE_ID)
               {
               player_ids_list.push
               ( 
@@ -91,7 +92,8 @@ async function getPlayersByTeam(team_id) {
               }
             }
 
-            else if (player.team != null && player.team.data.league != null && player.team.data.league.data.id == 271 && str.length == 2 && player.firstname == str[0] && player.lastname == str[1])
+            //2 names
+            else if (player.team != null && player.team.data.league != null && player.team.data.league.data.id == LEAGUE_ID && str.length == 2 && player.firstname == str[0] && player.lastname == str[1])
             {
               player_ids_list.push
               ( 
@@ -116,11 +118,11 @@ async function getPlayersByTeam(team_id) {
   }
 
 
-
+  // leagueid = 1981 search james
   async function getallplayers(player_name) {
     let player_ids_list = [];
     const player_list = await axios.get(
-      `https://soccer.sportmonks.com/api/v2.0/players/search/${player_name}`,
+      `${api_domain}/players/search/${player_name}`,
       {
         params: {
           api_token: process.env.api_token,
@@ -128,7 +130,7 @@ async function getPlayersByTeam(team_id) {
         },
       });
       player_list.data.data.map((player) =>{
-      if (player.team != null && player.team.data.league != null && player.team.data.league.data.id == 271)
+      if (player.team != null && player.team.data.league != null /*&& player.team.data.league.data.id == 271*/)
        {
           player_ids_list.push(player)
        }
