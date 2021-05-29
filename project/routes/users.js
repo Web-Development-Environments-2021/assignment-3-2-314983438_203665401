@@ -40,14 +40,14 @@ router.post("/favoriteGames", async (req, res, next) => {
 /**
  * This path returns the favorites players that were saved by the logged-in user
  */
-router.get("/favoritePlayers", async (req, res, next) => {
+router.get("/favoritePlayers/", async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
     const games_ids = await users_utils.getFavoriteGames(user_id);
     let games_ids_array = [];
     games_ids.map((element) => games_ids_array.push(element.player_id)); //extracting the games ids into array
     const results = await games_utils.getGameDetails(games_ids_array);
-    res.status(200).send(results);
+    res.status(200).send(games_ids_array);
   } catch (error) {
     next(error);
   }
