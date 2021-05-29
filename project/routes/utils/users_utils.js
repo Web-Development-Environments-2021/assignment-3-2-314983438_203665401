@@ -2,16 +2,17 @@ const DButils = require("./DButils");
 
 async function markGameAsFavorite(user_id, game_id) {
   let gameids = await getFavoriteGames(user_id);
-  let exist = 0;
-  console.log(gameids.length);
-  gameids.forEach(element => {if (element == game_id){
-    exist = 1;
-  } });
-  if (exist == 0){
+  //console.log(gameids[0].game_id);
+  for (let i = 0; i < gameids.length; i++) {
+    if (gameids[i].game_id == game_id){
+      return 1;
+  }
+};
   await DButils.execQuery(
     `insert into FavoriteGames values ('${user_id}',${game_id})`
   );
-  }
+  
+  return 0;
 }
 
 async function getFavoriteGames(user_id) {

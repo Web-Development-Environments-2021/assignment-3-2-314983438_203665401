@@ -3,6 +3,7 @@ var router = express.Router();
 const DButils = require("./utils/DButils");
 const users_utils = require("./utils/users_utils");
 const players_utils = require("./utils/players_utils");
+const games_utils = require("./utils/games_utils");
 
 /**
  * Authenticate all incoming requests by middleware
@@ -27,22 +28,29 @@ const players_utils = require("./utils/players_utils");
  */
 router.post("/favoriteGames", async (req, res, next) => {
   try {
-    // const user_id = req.session.user_id;
+    //const user_id = req.session.user_id;
     const user_id = req.body.user_id;
     const game_id = req.body.game_id;
-    await users_utils.markGameAsFavorite(user_id, game_id);
-    res.status(201).send("The game successfully saved as favorite");
+    let exists = await users_utils.markGameAsFavorite(user_id, game_id);
+    if (exists == 1){
+      res.status(409).send("favorite Game already exist in user favorite games");
+    }
+    else if (exists == 0)
+    {
+      res.status(201).send("The game successfully saved as favorite");
+    }
   } catch (error) {
     next(error);
   }
 });
 
 /**
- * This path returns the favorites players that were saved by the logged-in user
+ * This path returns the favorites games that were saved by the logged-in user
  */
-router.get("/favoritePlayers/", async (req, res, next) => {
+router.get("/favoriteGames/", async (req, res, next) => {
   try {
-    const user_id = req.session.user_id;
+    //const user_id = req.session.user_id;
+    const user_id = 1;
     const games_ids = await users_utils.getFavoriteGames(user_id);
     let games_ids_array = [];
     games_ids.map((element) => games_ids_array.push(element.player_id)); //extracting the games ids into array

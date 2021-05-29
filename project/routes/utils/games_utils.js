@@ -7,5 +7,7 @@ async function getGameDetails(games_ids_array) {
         DButils.execQuery(`SELECT * FROM dbo.Games WHERE game_id = '${id}'`)
       )
     );
+    return promises;
 }
-return promises;
+
+exports.getGameDetails = getGameDetails;
