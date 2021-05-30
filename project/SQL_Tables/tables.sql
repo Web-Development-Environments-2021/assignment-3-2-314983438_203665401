@@ -35,7 +35,8 @@
 --	[awayTeamId] [INT] NOT NULL,
 --	[homeTeamScore] [INT],
 --	[awayTeamScore] [INT],
---    [stadium] [varchar](50) NOT NULL
+--  [stadium] [varchar](50) NOT NULL
+--  [referee] [varchar](50)
 --);
 --GO
 

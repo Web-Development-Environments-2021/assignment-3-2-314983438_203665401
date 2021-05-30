@@ -118,6 +118,32 @@ async function getPlayersByTeam(team_id) {
   }
 
 
+// get player by id
+async function getPlayerById(player_id) {
+  let player_info = [];
+  const player = await axios.get(`${api_domain}/players/${player_id}`,
+    {
+      params: {
+        api_token: process.env.api_token,
+        //include: "team.league", // there is the league id
+      },
+    });
+    player_info.push({
+      //id: player.player_id,
+      fullname: player.data.data.fullname,
+      image_url: player.data.data.image_path,
+      nationality: player.data.data.nationality,
+      birthdate: player.data.data.birthdate,
+      birthcountry: player.data.data.birthcountry,
+      height: player.data.data.height,
+      weight: player.data.data.weight,
+    });
+  
+  return player_info;
+}
+
+
+
   // leagueid = 1981 search james
   async function getallplayers(player_name) {
     let player_ids_list = [];
@@ -144,6 +170,5 @@ exports.getPlayersByTeam = getPlayersByTeam;
 exports.getPlayersInfo = getPlayersInfo;
 exports.getPlayerByName = getPlayerByName;
 exports.getallplayers = getallplayers;
-
-
+exports.getPlayerById = getPlayerById;
 
