@@ -20,4 +20,24 @@ async function getTeamInfoByName(team_name) {
   return team_details;
   }
 
+
+  async function getTeamInfoByid(team_id) {
+    let team_details = [];
+    const team = await axios.get(`${api_domain}/teams/${team_id}`, {
+      params: {
+        api_token: process.env.api_token,
+      },
+    });
+    return team.data.data.name;
+    team.data.data.map((team1) =>
+    team_details.push( {
+        //id: player.player_id,
+        team_name: team1.name,
+        //team_logo: team1.logo_path,
+      })
+  );
+  return team_details;
+  }
+
   exports.getTeamInfoByName = getTeamInfoByName;
+  exports.getTeamInfoByid = getTeamInfoByid;

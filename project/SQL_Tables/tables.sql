@@ -87,20 +87,20 @@
 
 
 
--- Insert rows into table 'Games'
---INSERT INTO Games
---( -- columns to insert data into
+-- --Insert rows into table 'Games'
+-- INSERT INTO Games
+-- ( -- columns to insert data into
 -- [date], [homeTeamId], [awayTeamId], [homeTeamScore], [awayTeamScore], [stadium]
---)
---VALUES
---( -- first row: values for the columns in the list above
--- '2021-05-27 19:00:00' , 939, 830, 2, 0, 'blabla'
---),
---( -- second row: values for the columns in the list above
--- '2021-05-27 19:00:00', 565, 939, 1, 1, 'Erev Tov'
---),
---(
--- '2021-05-27 19:00:00', 830, 565, 4, 2, 'Erev Hara'
---)
--- add more rows here
---GO
+-- )
+-- VALUES
+-- ( -- first row: values for the columns in the list above
+-- '2022-05-27 19:00:00' , 939, 830, 2, 0, 'blabla'
+-- ),
+-- ( -- second row: values for the columns in the list above
+-- '2023-05-27 19:01:00', 565, 939, 1, 1, 'Erev Tov'
+-- ),
+-- (
+-- '2022-05-28 16:00:00', 830, 565, 4, 2, 'Erev Hara'
+-- )
+-- --add more rows here
+-- GO
