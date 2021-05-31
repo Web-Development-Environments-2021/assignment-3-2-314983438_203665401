@@ -12,19 +12,19 @@ router.get("/getDetails", async (req, res, next) => {
   }
 });
 
-router.post("/AddGame", async (req, res, next) => {
-  try {
-    if (req.body.homeTeamId == req.body.awayTeamId)
-      res.status(404).send('A team cannot play againts itself');
-    await DButils.execQuery(
-      `INSERT INTO dbo.Games VALUES ('${req.body.date}', '${req.body.homeTeamId}', '${req.body.awayTeamId}', 
-      '${req.body.homeTeamScore}', '${req.body.awayTeamScore}', '${req.body.stadium}')`
-    );
-    res.status(200).send('The game was successfully added');;
-  } catch (error) {
-    next(error);
-  }
-});
+// router.post("/AddGame", async (req, res, next) => {
+//   try {
+//     if (req.body.homeTeamId == req.body.awayTeamId)
+//       res.status(404).send('A team cannot play againts itself');
+//     await DButils.execQuery(
+//       `INSERT INTO dbo.Games VALUES ('${req.body.date}', '${req.body.homeTeamId}', '${req.body.awayTeamId}', 
+//       '${req.body.homeTeamScore}', '${req.body.awayTeamScore}', '${req.body.stadium}')`
+//     );
+//     res.status(200).send('The game was successfully added');;
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 router.post("/AddReferee", async (req, res, next) => {
   try {
