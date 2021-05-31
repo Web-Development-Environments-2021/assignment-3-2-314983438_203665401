@@ -19,7 +19,9 @@ async function getFavoriteGames(user_id) {
   const games_ids = await DButils.execQuery(
     `select game_id from FavoriteGames where user_id='${user_id}'`
   );
-  return games_ids;
+  let games_ids_array = [];
+    games_ids.map((element) => games_ids_array.push(element.game_id)); //extracting the games ids into array
+  return games_ids_array;
 }
 
 exports.markGameAsFavorite = markGameAsFavorite;
