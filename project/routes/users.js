@@ -29,7 +29,6 @@ router.use(async function (req, res, next) {
 router.post("/favoriteGames", async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
-    // const user_id = req.body.user_id;
     const game_id = req.body.game_id;
     let exists = await users_utils.markGameAsFavorite(user_id, game_id);
     if (exists == 1){
@@ -53,7 +52,7 @@ router.get("/favoriteGames/", async (req, res, next) => {
     //const user_id = 1;
     const games_ids = await users_utils.getFavoriteGames(user_id);
     let games_ids_array = [];
-    games_ids.map((element) => games_ids_array.push(element.player_id)); //extracting the games ids into array
+    games_ids.map((element) => games_ids_array.push(element)); //extracting the games ids into array
     const results = await games_utils.getGameDetails(games_ids_array);
     res.status(200).send(games_ids_array);
   } catch (error) {
