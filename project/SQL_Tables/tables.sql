@@ -53,33 +53,31 @@
 --CREATE TABLE dbo.FavoriteGames
 --(
 --	[FavoriteGame_id] [INT] IDENTITY(1,1) Primary key,
---	[user_id] [datetime] NOT NULL,
+--	[user_id] [INT] NOT NULL,
 --	[game_id] [INT] NOT NULL,
   --  FOREIGN KEY(game_id) REFERENCES Games(game_id)
 --);
 --GO
 
+-- -- Create a new table called 'Events' in schema 'dbo'
+-- -- Drop the table if it already exists
+-- IF OBJECT_ID('dbo.Events', 'U') IS NOT NULL
+-- DROP TABLE dbo.Events
+-- GO
+-- -- Create the table in the specified schema
+-- CREATE TABLE dbo.Events
+-- (
+--     [eventId] [INT] IDENTITY(1,1) NOT NULL PRIMARY KEY, -- primary key column
+--     [type] [VARCHAR] (10) NOT NULL,
+--     [date] [smalldatetime] NOT NULL,
+--     [minuteOfGame] [INT] NOT NULL,
+--     [description] [VARCHAR] (300),
+--     [game_id] [INT] NOT NULL,
+--     [player_id] [INT] NOT NULL,
+--     FOREIGN KEY(game_id) REFERENCES Games(game_id)
+-- );
+-- GO
 
-
-
-
-
-
-
--- Create a new table called 'FavoriteGames' in schema 'dbo'
--- Drop the table if it already exists
---IF OBJECT_ID('dbo.FavoriteGames', 'U') IS NOT NULL
---DROP TABLE dbo.FavoriteGames
---GO
--- Create the table in the specified schema
---CREATE TABLE dbo.FavoriteGames
---(
---    [FavoriteGameId] INT NOT NULL PRIMARY KEY, -- primary key column
---    [UsersId] [uniqueidentifier] NOT NULL,
---    [game_id] [uniqueidentifier] NOT NULL
---    FOREIGN KEY(game_id) REFERENCES Games(game_id)
---);
---GO
 
 
 
