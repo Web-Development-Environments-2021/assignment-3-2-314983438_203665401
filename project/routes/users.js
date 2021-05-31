@@ -51,7 +51,12 @@ router.get("/favoriteGames/", async (req, res, next) => {
     const user_id = req.session.user_id;
     const games_ids = await users_utils.getFavoriteGames(user_id);
     const results = await games_utils.getGameDetails(games_ids);
-    res.status(200).send(results);
+    if (results.length == 0){
+      res.status(204).send("No favorite games");
+    }
+    else{
+      res.status(200).send(results);
+    }
   } catch (error) {
     next(error);
   }

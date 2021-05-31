@@ -3,6 +3,9 @@ var router = express.Router();
 const league_utils = require("./utils/league_utils");
 const DButils = require("./utils/DButils");
 
+
+
+
 router.get("/getDetails", async (req, res, next) => {
   try {
     const league_details = await league_utils.getLeagueDetails();
@@ -12,6 +15,7 @@ router.get("/getDetails", async (req, res, next) => {
   }
 });
 
+<<<<<<< HEAD
 // router.post("/AddGame", async (req, res, next) => {
 //   try {
 //     if (req.body.homeTeamId == req.body.awayTeamId)
@@ -25,6 +29,45 @@ router.get("/getDetails", async (req, res, next) => {
 //     next(error);
 //   }
 // });
+=======
+/**
+ * Authenticate all incoming requests by middleware
+ */
+ router.use(async function (req, res, next) {
+  if (req.session && req.session.user_id) {
+    DButils.execQuery("SELECT user_id FROM Users")
+      .then((users) => {
+        if (users.find((x) => x.user_id === req.session.user_id)) {
+          req.user_id = req.session.user_id;
+          next();
+        }
+      })
+      .catch((err) => next(err));
+  } else {
+    res.sendStatus(401);
+  }
+});
+
+
+
+
+
+
+
+router.post("/AddGame", async (req, res, next) => {
+  try {
+    if (req.body.homeTeamId == req.body.awayTeamId)
+      res.status(404).send('A team cannot play againts itself');
+    await DButils.execQuery(
+      `INSERT INTO dbo.Games VALUES ('${req.body.date}', '${req.body.homeTeamId}', '${req.body.awayTeamId}', 
+      '${req.body.homeTeamScore}', '${req.body.awayTeamScore}', '${req.body.stadium}')`
+    );
+    res.status(200).send('The game was successfully added');;
+  } catch (error) {
+    next(error);
+  }
+});
+>>>>>>> be86d3f42dcae19221e475ea3cb8240a3e0d8946
 
 router.post("/AddReferee", async (req, res, next) => {
   try {
