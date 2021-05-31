@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const DButils = require("./utils/DButils");
-const users_utils = require("./utils/users_utils");
+const admin_utils = require("./utils/admin_utils");
 const players_utils = require("./utils/players_utils");
 const games_utils = require("./utils/games_utils");
 
@@ -9,19 +9,26 @@ const games_utils = require("./utils/games_utils");
  * Authenticate all incoming requests by middleware
  */
 router.use(async function (req, res, next) {
-  if (req.session && req.session.user_id && (req.username === req.session.username)) {
-    DButils.execQuery("SELECT user_id,username FROM Users")
-      .then((users) => {
-        if (users.find((x) => x.user_id === req.session.user_id)) {
-          req.user_id = req.session.user_id;
-          next();
-        }
-      })
-      .catch((err) => next(err));
-  } else {
-    res.sendStatus(401).send("you are not the admin!");
+  try{
+  if (req.session && req.session.user_id) {
+    const admin= await admin_utils.getadmin();//get assosiation man user
+    if(admin.username==req.session.username){// if logged in user is assosiation man
+      next();
+    }
+      else{
+        res.status(403).send("you are not the admin");
+    }
   }
-});
+  else{
+      res.status(403).send("you don't have access");
+  }
+  }
+  catch(error){
+    next(error);
+}
+}
+
+);
 
 router.post("/AddGame", async (req, res, next) => {
     try {
@@ -37,4 +44,31 @@ router.post("/AddGame", async (req, res, next) => {
     }
   });
 
+
+  router.post("/AddReferee", async (req, res, next) => {
+    try {
+      const games = await DButils.execQuery(
+        "SELECT * FROM dbo.Games"
+      );
+  
+      if (!(games.find((x) => x.game_id == req.body.game_id)))
+        throw { status: 404, message: "Game not found" };
+  
+      // const gamereferee = await DButils.execQuery(
+      //     `SELECT referee FROM dbo.Games WHERE game_id = '${req.body.game_id}' `
+      // )[0];
+
+
+      // if (gamereferee != null)
+      //   throw { status: 409, message: "Referee already assigned to game" };
+  
+  
+      await DButils.execQuery(
+        `UPDATE dbo.Games SET referee = ('${req.body.referee}') WHERE game_id = ('${req.body.game_id}')`
+      );
+      res.status(200).send('The referee was successfully assigned');;
+    } catch (error) {
+      next(error);
+    }
+  });
   module.exports = router;
