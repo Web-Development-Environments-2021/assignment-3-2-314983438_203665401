@@ -14,16 +14,11 @@ async function getGameDetails(games_ids_array) {
 
 async function NextGameInLeague() {
   try{
-    const games = await DButils.execQuery("SELECT * FROM dbo.Games");
-    let currentTime = new DateTime();
-    if (games.length>0){
-      let closesetGame = games[0];
-      for (let i=1;i<games.length;i++){
-          if (games[i].date < closesetGame.date && games[i].date > currentTime)
-            closesetGame = games[i].date;
-      }
-    }
-    return closesetGame;
+    const game = await DButils.execQuery(
+      `SELECT TOP 1 * FROM Games WHERE date > GETDATE()
+      ORDER BY date `
+    );
+    return game;
 
   }
   catch (error) {
@@ -34,3 +29,4 @@ async function NextGameInLeague() {
   
 
 exports.getGameDetails = getGameDetails;
+exports.NextGameInLeague = NextGameInLeague;

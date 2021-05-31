@@ -22,7 +22,7 @@ router.get("/teamFullDetails/:teamId", async (req, res, next) => {
 });
 
 // search team by name
-router.get("/SearchTeamByName/:teamNAME", async (req, res, next) => {
+router.get("/SearchTeamByName/:teamName", async (req, res, next) => {
   let team_details = [];
   try {
     const team_details = await team_utils.getTeamInfoByName(req.params.teamNAME);
