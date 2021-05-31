@@ -8,20 +8,20 @@ const games_utils = require("./utils/games_utils");
 /**
  * Authenticate all incoming requests by middleware
  */
-// router.use(async function (req, res, next) {
-//   if (req.session && req.session.user_id) {
-//     DButils.execQuery("SELECT user_id FROM Users")
-//       .then((users) => {
-//         if (users.find((x) => x.user_id === req.session.user_id)) {
-//           req.user_id = req.session.user_id;
-//           next();
-//         }
-//       })
-//       .catch((err) => next(err));
-//   } else {
-//     res.sendStatus(401);
-//   }
-// });
+router.use(async function (req, res, next) {
+  if (req.session && req.session.user_id) {
+    DButils.execQuery("SELECT user_id FROM Users")
+      .then((users) => {
+        if (users.find((x) => x.user_id === req.session.user_id)) {
+          req.user_id = req.session.user_id;
+          next();
+        }
+      })
+      .catch((err) => next(err));
+  } else {
+    res.sendStatus(401);
+  }
+});
 
 /**
  * This path gets body with gameId and save this game in the favorites list of the logged-in user
@@ -29,10 +29,6 @@ const games_utils = require("./utils/games_utils");
 router.post("/favoriteGames", async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
-<<<<<<< HEAD
-=======
-    //const user_id = req.body.user_id;
->>>>>>> 3c5c710f0e359fbd021c4c1b5f353cf8872984ac
     const game_id = req.body.game_id;
     let exists = await users_utils.markGameAsFavorite(user_id, game_id);
     if (exists == 1){
@@ -56,7 +52,12 @@ router.get("/favoriteGames/", async (req, res, next) => {
     //const user_id = 1;
     const games_ids = await users_utils.getFavoriteGames(user_id);
     const results = await games_utils.getGameDetails(games_ids);
-    res.status(200).send(results);
+    if (results.length == 0){
+      res.status(204).send("No favorite games");
+    }
+    else{
+      res.status(200).send(results);
+    }
   } catch (error) {
     next(error);
   }
