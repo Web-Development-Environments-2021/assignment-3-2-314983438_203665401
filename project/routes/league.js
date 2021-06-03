@@ -23,4 +23,21 @@ router.get("/getAllGames", async (req, res, next) => {
   }
 });
 
+router.get("/pastGames", async (req, res, next) => {
+  try {
+    const games_details = await games_utils.GetPastGames();
+    res.send(games_details);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/futureGames", async (req, res, next) => {
+  try {
+    const games_details = await games_utils.GetFutureGames();
+    res.send(games_details);
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = router;

@@ -34,6 +34,10 @@ router.post("/favoriteGames", async (req, res, next) => {
     if (exists == 1){
       res.status(409).send("favorite Game already exist in user favorite games");
     }
+    else if (exists == 2)
+    {
+      res.status(409).send("The game not exit in the games table");
+    }
     else if (exists == 0)
     {
       res.status(201).send("The game successfully saved as favorite");

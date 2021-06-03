@@ -44,20 +44,20 @@
 
 -- favoritesgames table create
 
--- Create a new table called 'FavoriteGames' in schema 'dbo'
--- Drop the table if it already exists
+--Create a new table called 'FavoriteGames' in schema 'dbo'
+--Drop the table if it already exists
 --IF OBJECT_ID('dbo.FavoriteGames', 'U') IS NOT NULL
 --DROP TABLE dbo.FavoriteGames
 --GO
--- Create the table in the specified schema
---CREATE TABLE dbo.FavoriteGames
---(
---	[FavoriteGame_id] [INT] IDENTITY(1,1) Primary key,
---	[user_id] [INT] NOT NULL,
---	[game_id] [INT] NOT NULL,
-  --  FOREIGN KEY(game_id) REFERENCES Games(game_id)
---);
---GO
+--Create the table in the specified schema
+-- CREATE TABLE dbo.FavoriteGames
+-- (
+-- 	[FavoriteGame_id] [INT] IDENTITY(1,1) Primary key,
+-- 	[user_id] [INT] NOT NULL,
+-- 	[game_id] [INT] NOT NULL,
+--    FOREIGN KEY(game_id) REFERENCES Games(game_id)
+-- );
+-- GO
 
 -- -- Create a new table called 'Events' in schema 'dbo'
 -- -- Drop the table if it already exists
@@ -101,4 +101,9 @@
 -- '2022-05-28 16:00:00', 830, 565, 4, 2, 'Erev Hara'
 -- )
 -- --add more rows here
+-- GO
+
+-- Delete rows from table 'FavoriteGames'
+-- DELETE FROM FavoriteGames
+-- WHERE user_id = 1	/* add search conditions here */
 -- GO
