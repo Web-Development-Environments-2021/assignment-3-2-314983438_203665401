@@ -71,9 +71,9 @@
 --     [type] [VARCHAR] (10) NOT NULL,
 --     [date] [smalldatetime] NOT NULL,
 --     [minuteOfGame] [INT] NOT NULL,
---     [description] [VARCHAR] (300),
 --     [game_id] [INT] NOT NULL,
 --     [player_id] [INT] NOT NULL,
+--     [description] [VARCHAR] (300),
 --     FOREIGN KEY(game_id) REFERENCES Games(game_id)
 -- );
 -- GO

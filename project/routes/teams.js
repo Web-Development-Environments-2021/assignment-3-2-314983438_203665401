@@ -5,7 +5,7 @@ const players_utils = require("./utils/players_utils");
 const team_utils = require("./utils/team_utils");
 
 // search team by id
-router.get("/teamFullDetails/:teamId", async (req, res, next) => {
+router.get("/SearchTeamByNId/:teamId", async (req, res, next) => {
   let team_details = [];
   try {
     const team_details = await players_utils.getPlayersByTeam(
@@ -24,8 +24,9 @@ router.get("/teamFullDetails/:teamId", async (req, res, next) => {
 // search team by name
 router.get("/SearchTeamByName/:teamName", async (req, res, next) => {
   let team_details = [];
+  req.session.lastsearch = req.params.teamName;
   try {
-    const team_details = await team_utils.getTeamInfoByName(req.params.teamNAME);
+    const team_details = await team_utils.getTeamInfoByName(req.params.teamName);
     if (team_details.length > 0){
       res.status(200).send(team_details);
     }

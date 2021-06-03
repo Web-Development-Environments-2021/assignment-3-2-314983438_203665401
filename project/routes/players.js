@@ -39,6 +39,7 @@ router.get("/SearchPlayerById/:playerId", async (req, res, next) => {
 // all players in leage 271
 router.get("/allplayers/:playerName", async (req, res, next) => {
   let players_list =[];
+  req.session.lastsearch = req.params.playerName;
     try {
         const players_list = await players_utils.getallplayers(req.params.playerName);
         if (players_list.length > 0){
