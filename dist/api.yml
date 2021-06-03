@@ -54,7 +54,7 @@ paths:
             schema:
               $ref: '#/components/schemas/UserLogin'
       responses:
-        "201":
+        "200":
           description: login succeeded
         "400":
           description: wrong input parameters
@@ -70,7 +70,7 @@ paths:
         "200":
           description: User logged out
           
-  /player/SearchPlayerByName/{playerName}:
+  /SearchPlayerByName/{playerName}:
     get:
       tags:
       - players
@@ -90,7 +90,7 @@ paths:
         "404":
           description: Player not found
           
-  /player/SearchPlayerById/{playerId}:
+  /SearchPlayerById/{playerId}:
     get:
       tags:
       - players
@@ -110,7 +110,7 @@ paths:
         "404":
           description: Player not found
           
-  /team/SearchTeamById/{teamId}:
+  /SearchTeamById/{teamId}:
     get:
       tags:
       - teams
@@ -140,7 +140,7 @@ paths:
         "404":
           description: Team  not found
           
-  /team/SearchTeamByName/{teamName}:
+  /SearchTeamByName/{teamName}:
     get:
       tags:
       - teams
@@ -180,7 +180,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserLogin'
+              $ref: '#/components/schemas/game'
       responses:
         "201":
           description: The game successfully saved as favorite
@@ -198,33 +198,169 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserLogin'
+                type: array
+                items:
+                  $ref: '#/components/schemas/game'
       responses:
         "200":
           description: show all favorite games
+        "204":
+          description: No favorite games
+          
+          
+  /AddGame:
+    post:
+      tags:
+      - admin
+      summary: add game to system
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/game'
+      responses:
+        "200":
+          description: The game was successfully added
+        "404":
+          description: Game  not found
+          
+  /AddReferee:
+    post:
+      tags:
+      - admin
+      summary: add game to system
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/referee'
+      responses:
+        "200":
+          description: The referee was successfully assigned
+        "404":
+          description: Game not found
 
           
-  /currentfixture:
+  /AddEvent:
+    post:
+      tags:
+      - admin
+      summary: add game to system
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/event'
+      responses:
+        "200":
+          description: The event was successfully added
+        "404":
+          description: Game not found
+          
+  /AddScore:
+    post:
+      tags:
+      - admin
+      summary: add score to game
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/game'
+      responses:
+        "200":
+          description: The score was successfully added
+        "404":
+          description: Game not found
+          
+          
+  /getDetails:
     get:
-      summary: games of current fixture
+      tags:
+      - league
+      summary: get all favorite games of user
       parameters:
       - name: title
         in: query
         required: true
-        description: games of current fixture
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/game'
-
+              $ref: '#/components/schemas/league'
       responses:
-        '200':
-          description: games of current fixture
-        '401':
-          description: Could not fetch information
+        "200":
+          description: show all favorite games
+        "204":
+          description: No favorite games
+  
+  /getAllGames:
+    get:
+      tags:
+      - league
+      summary: get all favorite games of user
+      parameters:
+      - name: title
+        in: query
+        required: true
+        content:
+          application/json:
+            schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/game'
+      responses:
+        "200":
+          description: show all league games
+        "204":
+          description: No favorite games
           
+  
+  /pastGames:
+    get:
+      tags:
+      - league
+      summary: get all favorite games of user
+      parameters:
+      - name: title
+        in: query
+        required: true
+        content:
+          application/json:
+            schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/game'
+      responses:
+        "200":
+          description: show past games in league
+        "204":
+          description: No favorite games
+        
+  /futureGames:
+    get:
+      tags:
+      - league
+      summary: get all favorite games of user
+      parameters:
+      - name: title
+        in: query
+        required: true
+        content:
+          application/json:
+            schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/game'
+      responses:
+        "200":
+          description: show future games in league
+        "204":
+          description: No favorite games
+      
           
 components:
   schemas:
@@ -330,19 +466,46 @@ components:
           description: player is in list of favorite players by user
           example: 'True'
           
+    league:
+      type: object
+      description: league info
+      properties:
+        name:
+          type: string
+          description: league's name
+          example: 'superliga'
+        season:
+          type: string
+          description: season's name
+          example: '2018/19'
+        stage:
+          type: integer
+          description: league's stage
+          example: '4'
+        next game:
+          $ref: '#/components/schemas/game'
+          
     game:
       type: object
       description: game info
       properties:
         date:
           type: string
-          format: date-time  
+          format: small date-time  
           description: game's full date
           example: '1992-05-26T23:20:50.52Z'
         home team:
           $ref: '#/components/schemas/team'
         away team:
           $ref: '#/components/schemas/team'
+        stadium:
+          type: string
+          description: game's stadium
+          example: 'Stamford Bridge'
+        referee:
+          type: string
+          description: game's referee
+          example: 'Mike Dean'
         home score:
           type: integer
           description: score of home team
@@ -351,11 +514,39 @@ components:
           type: integer
           description: score of away team
           example: '0'
-        stadium:
+          
+          
+    event:
+      type: object
+      description: event info
+      properties:
+        type of event:
           type: string
-          description: game's stadium
-          example: 'Stamford Bridge'
-        favorite:
-          type: boolean
-          description: game is in list of favorite games by user
-          example: 'True'
+          description: event's type
+          example: 'red card'
+        date:
+          type: string
+          format: small date-time  
+          description: event's full date
+          example: '1992-05-26T23:20:50.52Z'
+        minute of game:
+          type: integer
+          description: minute of game
+          example: '22'
+        game id:
+          type: integer
+          description: game id that the event happened in
+          example: '32'
+        player id:
+          type: integer
+          description: player id that made the event
+          example: '44'
+        description of event:
+          type: string
+          description: event's description
+          example: 'red card to sergio ramos'
+          
+    referee:
+      type: string
+      description: game's referee
+      example: 'Mike Dean'

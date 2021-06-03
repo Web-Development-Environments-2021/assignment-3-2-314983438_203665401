@@ -34,19 +34,20 @@ router.post("/Register", async (req, res, next) => {
 });
 
 router.post("/Login", async (req, res, next) => {
+  console.log("blala");
   try {
     const user = (
       await DButils.execQuery(
         `SELECT * FROM dbo.Users WHERE username = '${req.body.username}'`
       )
     )[0];
-    //user = user[0];
-    console.log(user);
 
     // check that username exists & the password is correct
-    if (!user || /*!bcrypt.compareSync(req.body.password, user.password ||*/ !user.password == '${req.body.password}') {
+    if (!user || !bcrypt.compareSync(req.body.password, user.password) || !user.password == '${req.body.password}') {
       throw { status: 401, message: "Username or Password incorrect" };
     }
+      
+    
 
     // Set cookie
     req.session.user_id = user.user_id;
