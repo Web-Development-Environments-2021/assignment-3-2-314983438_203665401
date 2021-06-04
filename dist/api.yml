@@ -1,25 +1,15 @@
 openapi: 3.0.0
 info:
-  title: 'League Mangement API'
-  description: league managment api
-  contact:
-    email: ronenara@post.bgu.ac.il
-  license:
-    name: Apache 2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
-  version: "1.0.0"
-servers:
-  # Added by API Auto Mocking Plugin
-# Added by API Auto Mocking Plugin
-- description: SwaggerHub API Auto Mocking
-  url: https://virtserver.swaggerhub.com/Ronen96/Register/1.0.0
-- url: https://virtserver.swaggerhub.com/ben-gurion8/Register/1.0.0
-  description: SwaggerHub API Auto Mocking
+  title: api
+  description: API for  project
+  version: 1.0.0
 tags:
-  - name: admins
-    description: Secured Admin-only calls
-  - name: developers
-    description: Operations available to regular developers
+  - name: users
+  - name: auth
+  - name: league
+  - name: players
+  - name: teams
+  - name: admin
     
 paths:
   /Register:
@@ -70,7 +60,7 @@ paths:
         "200":
           description: User logged out
           
-  /SearchPlayerByName/{playerName}:
+  /players/SearchPlayerByName/{playerName}:
     get:
       tags:
       - players
@@ -110,7 +100,7 @@ paths:
         "404":
           description: Player not found
           
-  /SearchTeamById/{teamId}:
+  /teams/SearchTeamById/{teamId}:
     get:
       tags:
       - teams
