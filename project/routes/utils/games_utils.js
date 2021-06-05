@@ -7,11 +7,16 @@ async function getGameDetails(games_ids_array) {
     let promises = [];
     games_ids_array.map((id) =>
       promises.push(
-        DButils.execQuery(`SELECT * FROM dbo.Games WHERE game_id = '${id}'`)
+        DButils.execQuery(`SELECT * FROM dbo.Games WHERE game_id = '${id}' AND date > GETDATE()`)
       )
     );
     let games_info = await Promise.all(promises);
-    return games_info;
+
+    //return only 3 games
+    if (games_info.length <= 3)
+        return games_info;
+    else
+      return games_info.slice(0,4);
 }
 
 
