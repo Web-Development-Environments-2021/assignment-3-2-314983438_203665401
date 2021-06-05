@@ -36,7 +36,7 @@ router.post("/AddGame", async (req, res, next) => {
         res.status(404).send('A team cannot play againts itself');
       await DButils.execQuery(
         `INSERT INTO dbo.Games VALUES ('${req.body.date}', '${req.body.homeTeamId}', '${req.body.awayTeamId}', 
-         '${req.body.stadium}', '${req.body.referee}' ,'${req.body.homeTeamScore}', '${req.body.awayTeamScore}')`
+         '${req.body.stadium}', null , null, null)`
       );
       res.status(200).send('The game was successfully added');;
     } catch (error) {
@@ -52,11 +52,13 @@ router.post("/AddGame", async (req, res, next) => {
       );
       if (!(games.find((x) => x.game_id == req.body.game_id)))
         throw { status: 404, message: "Game not found" };
-  
+
+      
+      //check if referee already assigned
+
       // const gamereferee = await DButils.execQuery(
       //     `SELECT referee FROM dbo.Games WHERE game_id = '${req.body.game_id}' `
       // )[0];
-
 
       // if (gamereferee != null)
       //   throw { status: 409, message: "Referee already assigned to game" };
@@ -101,7 +103,7 @@ router.post("/AddGame", async (req, res, next) => {
       await DButils.execQuery(
         `UPDATE dbo.Games SET homeTeamScore = ('${req.body.homeTeamScore}'), awayTeamScore = ('${req.body.awayTeamScore}') WHERE game_id = ('${req.body.game_id}')`
       );
-      res.status(200).send('The score was successfully added');;
+      res.status(200).send('The score was successfully updated');;
     } catch (error) {
       next(error);
     }

@@ -34,7 +34,6 @@ router.post("/Register", async (req, res, next) => {
 });
 
 router.post("/Login", async (req, res, next) => {
-  console.log("blala");
   try {
     const user = (
       await DButils.execQuery(

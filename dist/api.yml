@@ -10,7 +10,7 @@ tags:
   - name: players
   - name: teams
   - name: admin
-    
+  
 paths:
   /Register:
     post:
@@ -70,33 +70,41 @@ paths:
           name: playerName
           description: player info 
           required: true
+          schema:
+            type: string
+            example: "yossi benayun"
+
+      responses:
+        "200":
+          description: data of the specific player name
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/player'
-      responses:
-        "200":
-          description: data of the specific player name
         "404":
           description: Player not found
           
-  /SearchPlayerById/{playerId}:
+  /players/SearchPlayerById/{playerId}:
     get:
       tags:
       - players
-      summary: Search Player By Name
+      summary: Search Player By Id
       parameters: 
         - in: path
           name: playerId
           description: player info 
           required: true
+          schema:
+            type: integer
+            example: "122"
+
+      responses:
+        "200":
+          description: data of the specific player Id
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/player'
-      responses:
-        "200":
-          description: data of the specific player Id
         "404":
           description: Player not found
           
@@ -104,12 +112,19 @@ paths:
     get:
       tags:
       - teams
-      summary: show team's page
+      summary: Search team By Id
       parameters:
         - in: path
           name: teamId
           description: team info
           required: true
+          schema:
+            type: integer
+            example: "341"
+
+      responses:
+        "200":
+          description: data of the specific team Id
           content:
             application/json:
               schema:
@@ -124,43 +139,35 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/game'
-      responses:
-        "200":
-          description: data of the specific team Id
         "404":
           description: Team  not found
           
-  /SearchTeamByName/{teamName}:
+  /teams/SearchTeamByName/{teamName}:
     get:
       tags:
       - teams
-      summary: show team's page
+      summary: Search team By Name
       parameters:
         - in: path
           name: teamName
           description: team info
           required: true
+          schema:
+            type: string
+            example: "monaco"
+      responses:
+        "200":
+          description: data of the specific team name
           content:
             application/json:
               schema:
                 properties:
                   team:
                     $ref: '#/components/schemas/team'
-                  past-games:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/game'
-                  future-games:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/game'
-      responses:
-        "200":
-          description: data of the specific team name
         "404":
           description: Team  not found
           
-  /favoriteGames:
+  /users/favoriteGames:
     post:
       tags:
       - users
@@ -170,7 +177,8 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/game'
+              type: integer
+              example: "39"
       responses:
         "201":
           description: The game successfully saved as favorite
@@ -181,24 +189,20 @@ paths:
       tags:
       - users
       summary: get all favorite games of user
-      parameters:
-      - name: title
-        in: query
-        required: true
-        content:
-          application/json:
-            schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/game'
       responses:
         "200":
           description: show all favorite games
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/game'
         "204":
           description: No favorite games
           
           
-  /AddGame:
+  /admin/AddGame:
     post:
       tags:
       - admin
@@ -212,10 +216,12 @@ paths:
       responses:
         "200":
           description: The game was successfully added
+        "204":
+          description: A team cannot play againts itself
         "404":
           description: Game  not found
           
-  /AddReferee:
+  /admin/AddReferee:
     post:
       tags:
       - admin
@@ -233,7 +239,7 @@ paths:
           description: Game not found
 
           
-  /AddEvent:
+  /admin/AddEvent:
     post:
       tags:
       - admin
@@ -250,7 +256,7 @@ paths:
         "404":
           description: Game not found
           
-  /AddScore:
+  /admin/AddScore:
     post:
       tags:
       - admin
@@ -260,94 +266,91 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/game'
+              type: object
+              properties:
+                game_id:
+                  type: integer
+                  description: game id
+                  example: 20
+                homeTeamScore:
+                  type: integer
+                  description: score of the home team
+                  example: 2
+                awayTeamScore:
+                  type: integer
+                  description: score of the away team
+                  example: 2
       responses:
         "200":
-          description: The score was successfully added
+          description: The score was successfully updated
         "404":
           description: Game not found
           
           
-  /getDetails:
+  /league/getDetails:
     get:
       tags:
       - league
       summary: get all favorite games of user
-      parameters:
-      - name: title
-        in: query
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/league'
       responses:
         "200":
           description: show all favorite games
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/league'
         "204":
           description: No favorite games
   
-  /getAllGames:
+  /league/getAllGames:
     get:
       tags:
       - league
       summary: get all favorite games of user
-      parameters:
-      - name: title
-        in: query
-        required: true
-        content:
-          application/json:
-            schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/game'
       responses:
         "200":
           description: show all league games
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/game'
         "204":
           description: No favorite games
           
   
-  /pastGames:
+  /league/pastGames:
     get:
       tags:
       - league
       summary: get all favorite games of user
-      parameters:
-      - name: title
-        in: query
-        required: true
-        content:
-          application/json:
-            schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/game'
       responses:
         "200":
           description: show past games in league
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/game'
         "204":
           description: No favorite games
         
-  /futureGames:
+  /league/futureGames:
     get:
       tags:
       - league
       summary: get all favorite games of user
-      parameters:
-      - name: title
-        in: query
-        required: true
-        content:
-          application/json:
-            schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/game'
       responses:
         "200":
           description: show future games in league
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/game'
         "204":
           description: No favorite games
       
@@ -484,10 +487,14 @@ components:
           format: small date-time  
           description: game's full date
           example: '1992-05-26T23:20:50.52Z'
-        home team:
-          $ref: '#/components/schemas/team'
-        away team:
-          $ref: '#/components/schemas/team'
+        homeTeamId:
+          type: integer
+          description: Id of home team
+          example: '653'
+        awayTeamId:
+          type: integer
+          description: Id of away team
+          example: '939'
         stadium:
           type: string
           description: game's stadium
@@ -496,11 +503,11 @@ components:
           type: string
           description: game's referee
           example: 'Mike Dean'
-        home score:
+        homeTeamScore:
           type: integer
           description: score of home team
           example: '4'
-        away score:
+        awayTeamScore:
           type: integer
           description: score of away team
           example: '0'
@@ -510,7 +517,7 @@ components:
       type: object
       description: event info
       properties:
-        type of event:
+        type:
           type: string
           description: event's type
           example: 'red card'
@@ -519,19 +526,19 @@ components:
           format: small date-time  
           description: event's full date
           example: '1992-05-26T23:20:50.52Z'
-        minute of game:
+        minuteOfGame:
           type: integer
           description: minute of game
           example: '22'
-        game id:
+        game_id:
           type: integer
           description: game id that the event happened in
           example: '32'
-        player id:
+        player_id:
           type: integer
           description: player id that made the event
           example: '44'
-        description of event:
+        description:
           type: string
           description: event's description
           example: 'red card to sergio ramos'

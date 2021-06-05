@@ -14,7 +14,7 @@ async function markGameAsFavorite(user_id, game_id) {
 
   //check if the game already in the favorite games table of the user
   for (let i = 0; i < gameids.length; i++) {
-    if (gameids[i].game_id == game_id){
+    if (gameids[i] == game_id){
       return 1;
   }
 };
