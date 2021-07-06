@@ -35,9 +35,10 @@ async function getPlayersInfo(players_ids_list) {
 
 function extractRelevantPlayerData(players_info) {
   return players_info.map((player_info) => {
-    const { fullname, image_path, position_id } = player_info.data.data;
+    const { player_id, fullname, image_path, position_id } = player_info.data.data;
     const { name } = player_info.data.data.team.data;
     return {
+      player_id: player_id,
       name: fullname,
       image: image_path,
       position: position_id,
@@ -72,14 +73,15 @@ async function getPlayersByTeam(team_id) {
           // only 1 name
           if (str.length == 1)
           {
-            if (player.team != null && player.team.data.league != null && player.team.data.league.data.id == LEAGUE_ID)
+            if (player.team != null && player.team.data.league != null /*&& player.team.data.league.data.id == LEAGUE_ID*/)
               {
               player_ids_list.push
               ( 
                 {
-                  //id: player.player_id,
+                  id: player.player_id,
                   fullname: player.fullname,
                   teamName: player.team.data.name,
+                  position: player.position_id,
                   image_url: player.image_path,
                   Common_name: player.common_name,
                   nationality: player.nationality,
@@ -93,14 +95,15 @@ async function getPlayersByTeam(team_id) {
             }
 
             //2 names
-            else if (player.team != null && player.team.data.league != null && player.team.data.league.data.id == LEAGUE_ID && str.length == 2 && player.firstname == str[0] && player.lastname == str[1])
+            else if (player.team != null && player.team.data.league != null /*&& player.team.data.league.data.id == LEAGUE_ID*/ && str.length == 2 && player.firstname == str[0] && player.lastname == str[1])
             {
               player_ids_list.push
               ( 
                 {
-                  //id: player.player_id,
+                  id: player.player_id,
                   fullname: player.fullname,
                   teamName: player.team.data.name,
+                  position: player.position_id,
                   image_url: player.image_path,
                   Common_name: player.common_name,
                   nationality: player.nationality,

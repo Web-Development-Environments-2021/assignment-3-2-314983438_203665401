@@ -12,7 +12,7 @@ async function getTeamInfoByName(team_name) {
     });
     team.data.data.map((team1) =>
     team_details.push( {
-        //id: player.player_id,
+        team_id: team1.id,
         team_name: team1.name,
         team_logo: team1.logo_path,
       })

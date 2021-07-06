@@ -2,7 +2,7 @@ const axios = require("axios");
 const DButils = require("./DButils");
 const team_utils = require("./team_utils")
 const games_utils = require("./games_utils")
-const LEAGUE_ID = 271;
+const LEAGUE_ID = 501;
 
 
 async function getLeagueDetails() {
