@@ -11,12 +11,12 @@ async function getGameDetails(games_ids_array) {
       )
     );
     let games_info = await Promise.all(promises);
-
+    let games = [].concat(...games_info);
     //return only 3 games
-    if (games_info.length <= 3)
-        return games_info;
+    if (games.length <= 3)
+        return games;
     else
-      return games_info.slice(0,4);
+      return games.slice(0,4);
 }
 
 
