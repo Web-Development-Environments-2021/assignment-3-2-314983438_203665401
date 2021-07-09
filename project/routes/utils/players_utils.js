@@ -128,13 +128,16 @@ async function getPlayerById(player_id) {
     {
       params: {
         api_token: process.env.api_token,
-        //include: "team.league", // there is the league id
+        include: "team.name",
       },
     });
     player_info.push({
       //id: player.player_id,
       fullname: player.data.data.fullname,
       image_url: player.data.data.image_path,
+      common_name: player.data.data.common_name,
+      position: player.data.data.position_id,
+      team: player.data.data.team.data.name,
       nationality: player.data.data.nationality,
       birthdate: player.data.data.birthdate,
       birthcountry: player.data.data.birthcountry,
