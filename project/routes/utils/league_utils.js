@@ -2,12 +2,12 @@ const axios = require("axios");
 const DButils = require("./DButils");
 const team_utils = require("./team_utils")
 const games_utils = require("./games_utils")
-const LEAGUE_ID = 501;
-
+const LEAGUE_ID = "271";
+const api_domain = "https://soccer.sportmonks.com/api/v2.0";
 
 async function getLeagueDetails() {
   const league = await axios.get(
-    `https://soccer.sportmonks.com/api/v2.0/leagues/${LEAGUE_ID}`,
+    `${api_domain}/leagues/${LEAGUE_ID}`,
     {
       params: {
         include: "season",
@@ -16,7 +16,7 @@ async function getLeagueDetails() {
     }
   );
   const stage = await axios.get(
-    `https://soccer.sportmonks.com/api/v2.0/stages/${league.data.data.current_stage_id}`,
+    `${api_domain}/stages/${league.data.data.current_stage_id}`,
     {
       params: {
         api_token: process.env.api_token,
