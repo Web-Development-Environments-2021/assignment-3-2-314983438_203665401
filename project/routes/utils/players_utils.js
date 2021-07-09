@@ -73,7 +73,7 @@ async function getPlayersByTeam(team_id) {
           // only 1 name
           if (str.length == 1)
           {
-            if (player.team != null && player.team.data.league != null /*&& player.team.data.league.data.id == LEAGUE_ID*/)
+            if (player.team != null && player.team.data.league != null && player.team.data.league.data.id == LEAGUE_ID)
               {
               player_ids_list.push
               ( 
@@ -95,7 +95,7 @@ async function getPlayersByTeam(team_id) {
             }
 
             //2 names
-            else if (player.team != null && player.team.data.league != null /*&& player.team.data.league.data.id == LEAGUE_ID*/ && str.length == 2 && player.firstname == str[0] && player.lastname == str[1])
+            else if (player.team != null && player.team.data.league != null && player.team.data.league.data.id == LEAGUE_ID && str.length == 2 && player.firstname == str[0] && player.lastname == str[1])
             {
               player_ids_list.push
               ( 
