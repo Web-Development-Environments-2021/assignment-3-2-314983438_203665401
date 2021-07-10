@@ -43,13 +43,15 @@ async function GetAllGames() {
 function GamesData(games) {
   //let homeaway = await team_utils.getTeamInfoByid(closesetGame[0].awayTeamId);
   return games.map((game) => {
-    const { game_id, date, homeTeamId, awayTeamId, stadium, referee, homeTeamScore, awayTeamScore } = game;
+    const { game_id, date, homeTeamId, awayTeamId, homeTeamName, awayTeamName, stadium, referee, homeTeamScore, awayTeamScore } = game;
 
     return {
       game_id: game_id,
       date: date,
       homeTeamId: homeTeamId,
       awayTeamId: awayTeamId,
+      homeTeamName: homeTeamName,
+      awayTeamName: awayTeamName,
       stadium: stadium,
       referee: referee,
       homeTeamScore: homeTeamScore,
