@@ -8,9 +8,9 @@ const team_utils = require("./utils/team_utils");
 router.get("/SearchTeamById/:teamId", async (req, res, next) => {
   let team_details = [];
   try {
-    // const team_details = await players_utils.getPlayersByTeam(
-    //   req.params.teamId
-    // );
+    const team_details = await players_utils.getPlayersByTeam(
+      req.params.teamId
+    );
     //adding games to team
     const games = await DButils.execQuery(
       `SELECT * FROM dbo.Games WHERE homeTeamId = '${req.params.teamId}' OR awayTeamId = '${req.params.teamId}' `
