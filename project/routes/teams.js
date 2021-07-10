@@ -12,10 +12,13 @@ router.get("/SearchTeamById/:teamId", async (req, res, next) => {
       req.params.teamId
     );
     //adding games to team
-    const games = await DButils.execQuery(
-      `SELECT * FROM dbo.Games WHERE homeTeamId = '${req.params.teamId}' OR awayTeamId = '${req.params.teamId}' `
+    const futuregames = await DButils.execQuery(
+      `SELECT * FROM dbo.Games WHERE (homeTeamId = '${req.params.teamId}' OR awayTeamId = '${req.params.teamId}') AND date > GETDATE() `
     );
-    res.send({team_details,games});
+    const pastgames = await DButils.execQuery(
+      `SELECT * FROM dbo.Games WHERE (homeTeamId = '${req.params.teamId}' OR awayTeamId = '${req.params.teamId}') AND date < GETDATE() `
+    );
+    res.send({team_details,futuregames,pastgames});
   } catch (error) {
     next(error);
   }
